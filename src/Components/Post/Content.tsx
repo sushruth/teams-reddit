@@ -1,12 +1,17 @@
 import { Chat, Flex, Text, Video } from "@fluentui/react-northstar";
+import dayjs from "dayjs";
+import calendar from "dayjs/plugin/calendar";
+import utc from "dayjs/plugin/utc";
 import mdit from "markdown-it";
+import { useObserver } from "mobx-react-lite";
 import * as React from "react";
 import { useMemo } from "react";
 import { emptyArrayReference } from "../../helpers/state.helper";
 import { PostData } from "../../reddit.types";
 import { previewState } from "../../state/preview.state";
-import { TopBar } from "./TopBar";
-import { useObserver } from "mobx-react-lite";
+
+dayjs.extend(utc);
+dayjs.extend(calendar);
 
 var md = mdit({
   html: true,
@@ -31,7 +36,7 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
           <Video
             poster={images[0].source.url.replace(/amp;/g, "")}
             src={data.media.reddit_video.fallback_url.split("?")[0]}
-            variables={{
+            styles={{
               width: "80vh",
               height: "auto",
               maxWidth: "100%",
@@ -55,20 +60,29 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
 
   return useObserver(() => (
     <Chat.Message
-      styles={{
-        width: "100%",
+      author={{
+        content: data.author,
       }}
+      timestamp={dayjs.utc(dayjs.unix(data.created_utc)).local().calendar()}
+      reactionGroup={{
+        items: [
+          {
+            icon: {
+              name: "chevron-down-medium",
+              rotate: 180,
+            },
+            content: data.score,
+          },
+        ],
+      }}
+      results={data.num_comments}
+      variables={{ offset: 0 }}
       content={
-        <>
-          <Flex column gap="gap.small">
-            <TopBar data={data} />
-            <Text weight="semibold" content={data.title} />
-            {previewState.enablePreview && media}
-            <div
-              dangerouslySetInnerHTML={{ __html: md.render(data.selftext) }}
-            />
-          </Flex>
-        </>
+        <Flex column gap="gap.small">
+          <Text weight="semibold" content={data.title} />
+          {previewState.enablePreview && media}
+          <div dangerouslySetInnerHTML={{ __html: md.render(data.selftext) }} />
+        </Flex>
       }
     />
   ));

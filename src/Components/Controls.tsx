@@ -16,7 +16,6 @@ const SebRedditNamesArray = Object.values(SubRedditNames);
 
 export const Controls: React.FC<ControlsProps> = () => {
   const onDropdownChange = React.useCallback((_e, d) => {
-    debugger;
     subRedditState.setSubRedditName(
       (d?.value as SubRedditNames) || SubRedditNames.ProgrammerHumor
     );

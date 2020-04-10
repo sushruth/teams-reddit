@@ -11,6 +11,8 @@ export default function App() {
     <Provider
       theme={themeState.theme}
       styles={({ theme }: { theme: ThemePrepared }) => ({
+        minWidth: '100%',
+        minHeight: '100%',
         backgroundColor: theme.siteVariables.colorScheme.default.background2,
       })}
     >
@@ -23,9 +25,6 @@ export default function App() {
             return {
               gutter: <User name={data.author} />,
               message: {
-                styles: {
-                  width: "100%",
-                },
                 content: <Content data={data} />,
               },
               key: data.id,

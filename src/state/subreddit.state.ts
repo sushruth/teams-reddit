@@ -6,6 +6,9 @@ export enum SubRedditNames {
   funny = "funny",
   askreddit = "askreddit",
   todayilearned = "todayilearned",
+  worldnews = "worldnews",
+  javascript = "javascript",
+  reactjs = "reactjs",
 }
 
 class SubredditState {
@@ -30,7 +33,9 @@ class SubredditState {
 export const subRedditState = new SubredditState();
 
 autorun(() => {
-  fetch(`https://www.reddit.com/r/${subRedditState.subRedditName}/best/.json?limit=10`)
+  fetch(
+    `https://www.reddit.com/r/${subRedditState.subRedditName}/best/.json`
+  )
     .then((res) => res.json())
-    .then(data => subRedditState.subRedditData = data);
+    .then((data) => (subRedditState.subRedditData = data));
 });

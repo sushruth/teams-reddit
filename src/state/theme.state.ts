@@ -40,6 +40,7 @@ class ThemeState {
 export const themeState = new ThemeState();
 
 msTeams.getContext((context) => {
+  alert(context)
   if (context.theme) {
     themeState.setThemeManually(
       themeMap[context.theme as keyof typeof themeMap]
