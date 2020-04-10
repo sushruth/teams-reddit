@@ -1,4 +1,4 @@
-import { Chat, Flex, Text, Video } from "@fluentui/react-northstar";
+import { ChatMessage, Flex, Text, Video } from "@fluentui/react-northstar";
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
 import utc from "dayjs/plugin/utc";
@@ -22,6 +22,12 @@ var md = mdit({
 type ContentProps = {
   data: PostData;
 };
+
+function decodeHtml(html: string) {
+  var txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+}
 
 export const Content: React.FC<ContentProps> = ({ data }) => {
   const images =
@@ -59,7 +65,7 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
   }, [data, images]);
 
   return useObserver(() => (
-    <Chat.Message
+    <ChatMessage
       author={{
         content: data.author,
       }}
@@ -67,21 +73,23 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
       reactionGroup={{
         items: [
           {
-            icon: {
-              name: "chevron-down-medium",
-              rotate: 180,
-            },
+            key: "upvotes",
+            icon: "like",
             content: data.score,
           },
         ],
       }}
-      results={data.num_comments}
+      attached="bottom"
       variables={{ offset: 0 }}
       content={
         <Flex column gap="gap.small">
-          <Text weight="semibold" content={data.title} />
+          <Text weight="semibold" content={decodeHtml(data.title)} />
           {previewState.enablePreview && media}
-          <div dangerouslySetInnerHTML={{ __html: md.render(data.selftext) }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: md.render(decodeHtml(data.selftext)),
+            }}
+          />
         </Flex>
       }
     />
