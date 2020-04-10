@@ -1,27 +1,45 @@
-import * as React from "react";
 import {
+  Checkbox,
+  CheckboxProps,
+  ComponentEventHandler,
   Dropdown,
   Flex,
-  Checkbox,
-  DropdownProps
 } from "@fluentui/react-northstar";
-import { view } from "@risingstack/react-easy-state";
-import { state } from "../state";
+import { useObserver } from "mobx-react-lite";
+import * as React from "react";
+import { previewState } from "../state/preview.state";
+import { SubRedditNames, subRedditState } from "../state/subreddit.state";
 
-type ControlsProps = {
-  dropdownProps: DropdownProps;
-};
+type ControlsProps = {};
 
-export const Controls: React.FC<ControlsProps> = view(({ dropdownProps }) => {
-  return (
+const SebRedditNamesArray = Object.values(SubRedditNames);
+
+export const Controls: React.FC<ControlsProps> = () => {
+  const onDropdownChange = React.useCallback((_e, d) => {
+    debugger;
+    subRedditState.setSubRedditName(
+      (d?.value as SubRedditNames) || SubRedditNames.ProgrammerHumor
+    );
+  }, []);
+
+  const onCheckboxClick: ComponentEventHandler<CheckboxProps> = React.useCallback(() => {
+    previewState.togglePreview();
+  }, []);
+
+  return useObserver(() => (
     <Flex hAlign="end" vAlign="center">
-      <Dropdown inline {...dropdownProps} />
+      <Dropdown
+        inline
+        items={SebRedditNamesArray}
+        defaultValue={subRedditState.subRedditName}
+        onChange={onDropdownChange}
+      />
       <Checkbox
         label="Previews"
-        onClick={state.togglePreview}
-        checked={state.previews}
+        onClick={onCheckboxClick}
+        checked={previewState.enablePreview}
         toggle
       />
     </Flex>
-  );
-});
+  ));
+};

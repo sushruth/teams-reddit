@@ -1,23 +1,24 @@
 import { Chat, Flex, Text, Video } from "@fluentui/react-northstar";
-import { view } from "@risingstack/react-easy-state";
+import mdit from "markdown-it";
 import * as React from "react";
 import { useMemo } from "react";
+import { emptyArrayReference } from "../../helpers/state.helper";
 import { PostData } from "../../reddit.types";
-import { emptyArrayReference, state } from "../../state";
+import { previewState } from "../../state/preview.state";
 import { TopBar } from "./TopBar";
-import mdit from "markdown-it";
+import { useObserver } from "mobx-react-lite";
 
 var md = mdit({
   html: true,
   linkify: true,
-  typographer: true
+  typographer: true,
 });
 
 type ContentProps = {
   data: PostData;
 };
 
-export const Content: React.FC<ContentProps> = view(({ data }) => {
+export const Content: React.FC<ContentProps> = ({ data }) => {
   const images =
     data.preview && data.preview.images && data.preview.images.length
       ? data.preview.images
@@ -33,7 +34,7 @@ export const Content: React.FC<ContentProps> = view(({ data }) => {
             variables={{
               width: "80vh",
               height: "auto",
-              maxWidth: "100%"
+              maxWidth: "100%",
             }}
           />
         );
@@ -44,7 +45,7 @@ export const Content: React.FC<ContentProps> = view(({ data }) => {
             style={{
               width: "80vh",
               height: "auto",
-              maxWidth: "100%"
+              maxWidth: "100%",
             }}
             src={images[0].source.url.replace(/amp;/g, "")}
           />
@@ -52,17 +53,17 @@ export const Content: React.FC<ContentProps> = view(({ data }) => {
     }
   }, [data, images]);
 
-  return (
+  return useObserver(() => (
     <Chat.Message
       styles={{
-        width: "100%"
+        width: "100%",
       }}
       content={
         <>
           <Flex column gap="gap.small">
             <TopBar data={data} />
             <Text weight="semibold" content={data.title} />
-            {state.previews && media}
+            {previewState.enablePreview && media}
             <div
               dangerouslySetInnerHTML={{ __html: md.render(data.selftext) }}
             />
@@ -70,5 +71,5 @@ export const Content: React.FC<ContentProps> = view(({ data }) => {
         </>
       }
     />
-  );
-});
+  ));
+};

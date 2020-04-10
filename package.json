@@ -10,13 +10,16 @@
   "main": "src/index.tsx",
   "dependencies": {
     "@fluentui/react-northstar": "0.47.0",
+    "@microsoft/teams-js": "^1.6.0",
     "@types/markdown-it": "0.0.9",
     "dayjs": "1.8.23",
-    "easy-peasy": "^3.3.0",
     "markdown-it": "10.0.0",
+    "mobx": "^5.15.4",
+    "mobx-react-lite": "^2.0.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "unstated-next": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "16.9.34",

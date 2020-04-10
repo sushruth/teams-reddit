@@ -1,8 +1,9 @@
 {
   "include": [
-    "./src/*", "src/Components/Post"
+    "./src/**/*",
   ],
   "compilerOptions": {
+    "experimentalDecorators": true,
     "strict": true,
     "lib": [
       "dom",
