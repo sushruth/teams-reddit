@@ -10,9 +10,9 @@
   "main": "src/index.tsx",
   "dependencies": {
     "@fluentui/react-northstar": "0.47.0",
-    "@risingstack/react-easy-state": "6.2.1",
     "@types/markdown-it": "0.0.9",
     "dayjs": "1.8.23",
+    "easy-peasy": "^3.3.0",
     "markdown-it": "10.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",

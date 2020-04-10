@@ -3,13 +3,13 @@ import {
   Dropdown,
   Flex,
   Checkbox,
-  DropDownProps
+  DropdownProps
 } from "@fluentui/react-northstar";
 import { view } from "@risingstack/react-easy-state";
 import { state } from "../state";
 
 type ControlsProps = {
-  dropdownProps: DropDownProps;
+  dropdownProps: DropdownProps;
 };
 
 export const Controls: React.FC<ControlsProps> = view(({ dropdownProps }) => {

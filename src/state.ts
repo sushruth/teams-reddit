@@ -1,18 +1,39 @@
-import { store } from "@risingstack/react-easy-state";
+import { store, autoEffect } from "@risingstack/react-easy-state";
+import { Subreddit } from "./reddit.types";
 
 export const emptyArrayReference = [];
 
-export enum Subreddits {
+export enum SubredditNames {
   ProgrammerHumor = "ProgrammerHumor",
   funny = "funny",
   askreddit = "askreddit",
-  todayilearned = "todayilearned"
+  todayilearned = "todayilearned",
 }
 
-export const state = store({
+type State = {
+  previews: boolean;
+  subRedditName: SubredditNames;
+  subreddit: Subreddit;
+};
+
+const initialState: State = {
   previews: false,
-  subredditName: Subreddits.ProgrammerHumor,
-  togglePreview: () => {
-    state.previews = !state.previews;
-  }
+  subRedditName: SubredditNames.ProgrammerHumor,
+  subreddit: {
+    kind: "Listing",
+    data: {
+      dist: 0,
+      children: [],
+    },
+  },
+};
+
+export const state = store(initialState);
+
+autoEffect(() => {
+  fetch("https://www.reddit.com/r/javascript/best/.json?limit=10")
+    .then((res) => res.json())
+    .then((data) => {
+      state.subreddit = data;
+    });
 });

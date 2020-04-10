@@ -7,8 +7,8 @@ import {
 } from "@fluentui/react-northstar";
 import * as React from "react";
 import { useState } from "react";
-import { Content, User } from "./Post";
-import { useFetch } from "./reddit.fetch";
+import { Content, User } from "./Components/Post";
+import { useFetch } from "./helpers/useFetch";
 import { Subreddit } from "./reddit.types";
 import { Controls } from "./Components/Controls";
 
