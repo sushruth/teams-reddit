@@ -1,7 +1,7 @@
 import { TeamsThemeStylesProps, ThemePrepared } from "@fluentui/react-northstar";
 import { teams, teamsDark, teamsHighContrast } from "@fluentui/react-northstar/dist/es/themes";
 import * as msTeams from "@microsoft/teams-js";
-import { action, autorun, computed, observable } from "mobx";
+import { action, computed, observable } from "mobx";
 
 msTeams.initialize();
 
@@ -39,12 +39,14 @@ class ThemeState {
 
 export const themeState = new ThemeState();
 
-autorun(() => {
-    msTeams.getContext((context) => {
-      if (context.theme) {
-        themeState.setThemeManually(
-          themeMap[context.theme as keyof typeof themeMap]
-        );
-      }
-    });
-  });
+msTeams.getContext((context) => {
+  if (context.theme) {
+    themeState.setThemeManually(
+      themeMap[context.theme as keyof typeof themeMap]
+    );
+  }
+});
+
+msTeams.registerOnThemeChangeHandler((theme) => {
+  themeState.setThemeManually(themeMap[theme as keyof typeof themeMap]);
+});
