@@ -1,23 +1,15 @@
-import {
-  Checkbox,
-  CheckboxProps,
-  ComponentEventHandler,
-  Dropdown,
-  Flex,
-} from "@fluentui/react-northstar";
+import { Checkbox, CheckboxProps, ComponentEventHandler, Dropdown, Flex } from "@fluentui/react-northstar";
 import { useObserver } from "mobx-react-lite";
 import * as React from "react";
 import { previewState } from "../state/preview.state";
-import { SubRedditNames, subRedditState } from "../state/subreddit.state";
+import { subRedditState } from "../state/subreddit.state";
 
 type ControlsProps = {};
-
-const SebRedditNamesArray = Object.values(SubRedditNames);
 
 export const Controls: React.FC<ControlsProps> = () => {
   const onDropdownChange = React.useCallback((_e, d) => {
     subRedditState.setSubRedditName(
-      (d?.value as SubRedditNames) || SubRedditNames.ProgrammerHumor
+      (d?.value) || 'ProgrammerHumor'
     );
   }, []);
 
@@ -29,8 +21,8 @@ export const Controls: React.FC<ControlsProps> = () => {
     <Flex hAlign="end" vAlign="center">
       <Dropdown
         inline
-        items={SebRedditNamesArray}
-        defaultValue={subRedditState.subRedditName}
+        items={subRedditState.subredditNames}
+        defaultValue={subRedditState.subredditNames[0]}
         onChange={onDropdownChange}
       />
       <Checkbox

@@ -47,3 +47,18 @@ export type Subreddit = {
     children: Post[];
   };
 };
+
+export type SubredditListing = {
+  kind: "Listing";
+  data: {
+    dist: number;
+    children: [
+      {
+        kind: "t5";
+        data: {
+          display_name: string
+        };
+      }
+    ];
+  };
+};
