@@ -1,0 +1,17 @@
+html,
+body,
+#root {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: #201f1f;
+  }
+}

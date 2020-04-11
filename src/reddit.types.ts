@@ -1,3 +1,16 @@
+type RedditListing<T> = {
+  kind: "Listing";
+  data: {
+    dist: number;
+    children: T[];
+  };
+};
+
+type KindData<S extends string, T> = {
+  kind: S;
+  data: T;
+};
+
 type PostDataBase = {
   title: string;
   permalink: string;
@@ -40,25 +53,26 @@ export type Post = {
   data: PostData;
 };
 
-export type Subreddit = {
-  kind: "Listing";
-  data: {
-    dist: number;
-    children: Post[];
-  };
-};
+export type Subreddit = RedditListing<Post>;
 
-export type SubredditListing = {
-  kind: "Listing";
+export type SubredditListing = RedditListing<{
+  kind: "t5";
   data: {
-    dist: number;
-    children: [
-      {
-        kind: "t5";
-        data: {
-          display_name: string
-        };
-      }
-    ];
+    display_name: string;
   };
-};
+}>;
+
+export type Comments = RedditListing<
+  KindData<
+    "t1",
+    {
+      score: number;
+      author: string;
+      created_utc: number;
+      body_html: string;
+      id: string;
+    }
+  >
+>;
+
+export type CommentsResponse = [Subreddit, Comments];

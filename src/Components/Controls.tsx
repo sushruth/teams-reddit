@@ -1,4 +1,10 @@
-import { Checkbox, CheckboxProps, ComponentEventHandler, Dropdown, Flex } from "@fluentui/react-northstar";
+import {
+  Checkbox,
+  CheckboxProps,
+  ComponentEventHandler,
+  Dropdown,
+  Flex,
+} from "@fluentui/react-northstar";
 import { useObserver } from "mobx-react-lite";
 import * as React from "react";
 import { previewState } from "../state/preview.state";
@@ -8,9 +14,7 @@ type ControlsProps = {};
 
 export const Controls: React.FC<ControlsProps> = () => {
   const onDropdownChange = React.useCallback((_e, d) => {
-    subRedditState.setSubRedditName(
-      (d?.value) || 'ProgrammerHumor'
-    );
+    subRedditState.setSubRedditName(d?.value || "ProgrammerHumor");
   }, []);
 
   const onCheckboxClick: ComponentEventHandler<CheckboxProps> = React.useCallback(() => {
@@ -18,12 +22,27 @@ export const Controls: React.FC<ControlsProps> = () => {
   }, []);
 
   return useObserver(() => (
-    <Flex hAlign="end" vAlign="center">
+    <Flex
+      hAlign="end"
+      vAlign="center"
+      padding="padding.medium"
+      styles={(style) => {
+        return {
+          position: "sticky",
+          top: 0,
+          zIndex: 50000,
+          background: style.theme.siteVariables.colorScheme.default.background2,
+        };
+      }}
+    >
       <Dropdown
         inline
         items={subRedditState.subredditNames}
         defaultValue={subRedditState.subredditNames[0]}
         onChange={onDropdownChange}
+        styles={{
+          width: "auto",
+        }}
       />
       <Checkbox
         label="Previews"

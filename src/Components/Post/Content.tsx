@@ -1,94 +1,40 @@
-import { ChatMessage, Flex, Text, Video } from "@fluentui/react-northstar";
-import dayjs from "dayjs";
-import calendar from "dayjs/plugin/calendar";
-import utc from "dayjs/plugin/utc";
-import mdit from "markdown-it";
+import { Flex, Text } from "@fluentui/react-northstar";
 import { useObserver } from "mobx-react-lite";
 import * as React from "react";
-import { useMemo } from "react";
-import { emptyArrayReference } from "../../helpers/state.helper";
+import { decodeHtml, renderHTML } from "../../helpers/content.helper";
 import { PostData } from "../../reddit.types";
 import { previewState } from "../../state/preview.state";
-
-dayjs.extend(utc);
-dayjs.extend(calendar);
-
-var md = mdit({
-  html: true,
-  linkify: true,
-  typographer: true,
-});
+import { RChatMessage } from "../Chat/RChatMessage";
+import { Media } from "../Media";
+import { RepliesContainer } from "./Replies";
 
 type ContentProps = {
   data: PostData;
 };
 
-function decodeHtml(html: string) {
-  var txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
-}
-
 export const Content: React.FC<ContentProps> = ({ data }) => {
-  const images =
-    data.preview && data.preview.images && data.preview.images.length
-      ? data.preview.images
-      : emptyArrayReference;
-
-  const media = useMemo(() => {
-    switch (data.is_video) {
-      case true:
-        return (
-          <Video
-            poster={images[0].source.url.replace(/amp;/g, "")}
-            src={data.media.reddit_video.fallback_url.split("?")[0]}
-            styles={{
-              width: "80vh",
-              height: "auto",
-              maxWidth: "100%",
-            }}
-          />
-        );
-      case false:
-        return images.length ? (
-          <img
-            alt={data.title}
-            style={{
-              width: "80vh",
-              height: "auto",
-              maxWidth: "100%",
-            }}
-            src={images[0].source.url.replace(/amp;/g, "")}
-          />
-        ) : null;
-    }
-  }, [data, images]);
-
   return useObserver(() => (
-    <ChatMessage
-      author={{
-        content: data.author,
-      }}
-      timestamp={dayjs.utc(dayjs.unix(data.created_utc)).local().calendar()}
-      reactionGroup={{
-        items: [
-          {
-            key: "upvotes",
-            icon: "like",
-            content: data.score,
-          },
-        ],
-      }}
-      attached="bottom"
-      variables={{ offset: 0 }}
+    <RChatMessage
+      author={data.author}
+      created={data.created_utc}
+      score={data.score}
       content={
-        <Flex column gap="gap.small">
-          <Text weight="semibold" content={decodeHtml(data.title)} />
-          {previewState.enablePreview && media}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: md.render(decodeHtml(data.selftext)),
-            }}
+        <Flex column hAlign="start" fill>
+          <Flex gap="gap.small" styles={{ padding: "0.5rem 0" }} column>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={data.url}
+              style={{ color: "inherit" }}
+            >
+              <Text weight="semibold" content={decodeHtml(data.title)} />
+            </a>
+            {previewState.enablePreview && <Media data={data} />}
+            {data.selftext && renderHTML(data.selftext_html)}
+          </Flex>
+          <RepliesContainer
+            permalink={data.permalink}
+            numberOfReplies={data.num_comments}
           />
         </Flex>
       }

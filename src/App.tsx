@@ -11,12 +11,26 @@ export default function App() {
     <Provider
       theme={themeState.theme}
       styles={({ theme }: { theme: ThemePrepared }) => ({
-        minWidth: '100%',
-        minHeight: '100%',
         backgroundColor: theme.siteVariables.colorScheme.default.background2,
+        height: "100%",
+        "& a": {
+          color: "inherit",
+          textDecoration: "none",
+        },
+        "& p": {
+          margin: 0,
+        },
       })}
     >
-      <Flex gap="gap.medium" column padding="padding.medium">
+      <Flex
+        gap="gap.medium"
+        column
+        fill
+        styles={{
+          overflowY: "scroll",
+          position: "relative",
+        }}
+      >
         <Controls />
         <Chat
           items={subRedditState.subRedditData.data.children.map(({ data }) => {
@@ -26,8 +40,11 @@ export default function App() {
               gutter: <User name={data.author} />,
               message: {
                 content: <Content data={data} />,
+                styles: {
+                  width: "100%",
+                  maxWidth: "calc(100% - 6.32rem)",
+                },
               },
-              key: data.id,
             };
           })}
         />
