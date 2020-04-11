@@ -5,5 +5,4 @@ import { createRoot } from "react-dom";
 import App from "./App";
 import "./root.styles.css";
 
-const rootElement = document.getElementById("root");
-createRoot(<App />, rootElement);
+createRoot(document.getElementById("root")).render(<App />);
