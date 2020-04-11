@@ -16,8 +16,8 @@
     "markdown-it": "10.0.0",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^2.0.5",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "^0.0.0-experimental-e5d06e34b",
+    "react-dom": "^0.0.0-experimental-e5d06e34b",
     "react-scripts": "3.4.1",
     "unstated-next": "^1.1.0"
   },
