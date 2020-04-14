@@ -19,8 +19,23 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
       created={data.created_utc}
       score={data.score}
       content={
-        <Flex column hAlign="start" fill>
-          <Flex gap="gap.small" styles={{ padding: "0.5rem 0" }} column>
+        <Flex
+          column
+          hAlign="start"
+          fill
+          styles={{
+            margin: "0 -1rem",
+            width: "calc(100% + 2rem)",
+          }}
+        >
+          <Flex
+            gap="gap.small"
+            padding="padding.medium"
+            styles={{
+              padding: "0.5rem 1rem",
+            }}
+            column
+          >
             <a
               target="_blank"
               rel="noopener noreferrer"

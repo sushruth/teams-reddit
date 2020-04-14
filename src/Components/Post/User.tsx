@@ -1,9 +1,10 @@
+import { Avatar, AvatarProps } from "@fluentui/react-northstar";
 import * as React from "react";
-import { Avatar } from "@fluentui/react-northstar";
 import { useFetch } from "../../helpers/useFetch";
 
 type UserProps = {
   name: string;
+  size?: AvatarProps["size"];
 };
 
 type AvatarData = {
@@ -13,13 +14,14 @@ type AvatarData = {
   };
 };
 
-export const User: React.FC<UserProps> = ({ name }) => {
+export const User: React.FC<UserProps> = ({ name, size = "medium" }) => {
   const avatar = useFetch<AvatarData>(
     `https://www.reddit.com/user/${name}/about.json`
   );
 
   return (
     <Avatar
+      size={size}
       name={name}
       image={avatar.data ? avatar.data.data.icon_img.split("?")[0] : undefined}
     />

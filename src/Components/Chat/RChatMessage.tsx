@@ -39,13 +39,23 @@ export const RChatMessage: React.FC<IRChatMessageProps> = ({
       }}
       styles={{
         width: "100%",
+        paddingBottom: 0,
+        "& .ui-chat__message": {
+          background: "transparent",
+        },
       }}
       variables={{
         offset: 0,
       }}
       author={{
         content: (
-          <a href={`https://www.reddit.com/u/${author}`}>{`/u/${author}`}</a>
+          <Text
+            weight="semibold"
+            size="small"
+            content={
+              <a href={`https://www.reddit.com/u/${author}`}>{author}</a>
+            }
+          />
         ),
       }}
       timestamp={toCalendar(timestamp)}
