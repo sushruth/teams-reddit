@@ -1,13 +1,15 @@
-import "mobx-react-lite/batchingForReactDom";
-import * as React from "react";
-import { render } from "react-dom";
-import App from "./App";
-import "./root.styles.css";
+import 'mobx-react-lite/batchingForReactDom'
+import './root.styles.css'
 
-const rootElement = document.getElementById("root");
+import * as React from 'react'
+import { render } from 'react-dom'
+
+import App from './App'
+
+const rootElement = document.getElementById('root')
 render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   rootElement
-);
+)

@@ -4,22 +4,23 @@ import {
   ComponentEventHandler,
   Dropdown,
   Flex,
-} from "@fluentui/react-northstar";
-import { useObserver } from "mobx-react-lite";
-import * as React from "react";
-import { previewState } from "../state/preview.state";
-import { subRedditState } from "../state/subreddit.state";
+} from '@fluentui/react-northstar'
+import { useObserver } from 'mobx-react-lite'
+import * as React from 'react'
 
-type ControlsProps = {};
+import { previewState } from '../state/preview.state'
+import { subRedditState } from '../state/subreddit.state'
+
+type ControlsProps = {}
 
 export const Controls: React.FC<ControlsProps> = () => {
   const onDropdownChange = React.useCallback((_e, d) => {
-    subRedditState.setSubRedditName(d?.value || "ProgrammerHumor");
-  }, []);
+    subRedditState.setSubRedditName(d?.value || 'ProgrammerHumor')
+  }, [])
 
   const onCheckboxClick: ComponentEventHandler<CheckboxProps> = React.useCallback(() => {
-    previewState.togglePreview();
-  }, []);
+    previewState.togglePreview()
+  }, [])
 
   return useObserver(() => (
     <Flex
@@ -28,11 +29,11 @@ export const Controls: React.FC<ControlsProps> = () => {
       padding="padding.medium"
       styles={(style) => {
         return {
-          position: "sticky",
+          position: 'sticky',
           top: 0,
           zIndex: 50000,
           background: style.theme.siteVariables.colorScheme.default.background2,
-        };
+        }
       }}
     >
       <Dropdown
@@ -41,7 +42,7 @@ export const Controls: React.FC<ControlsProps> = () => {
         defaultValue={subRedditState.subredditNames[0]}
         onChange={onDropdownChange}
         styles={{
-          width: "auto",
+          width: 'auto',
         }}
       />
       <Checkbox
@@ -51,5 +52,5 @@ export const Controls: React.FC<ControlsProps> = () => {
         toggle
       />
     </Flex>
-  ));
-};
+  ))
+}

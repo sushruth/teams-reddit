@@ -1,11 +1,11 @@
-import { observable, action } from "mobx";
+import { action, observable } from 'mobx'
 
 class PreviewState {
-    @observable enablePreview = false;
+  @observable enablePreview = false
 
-    @action togglePreview() {
-        this.enablePreview = !this.enablePreview;
-    }
+  @action togglePreview() {
+    this.enablePreview = !this.enablePreview
+  }
 }
 
-export const previewState = new PreviewState();
+export const previewState = new PreviewState()

@@ -1,16 +1,17 @@
-import { Flex, Text } from "@fluentui/react-northstar";
-import { useObserver } from "mobx-react-lite";
-import * as React from "react";
-import { decodeHtml, renderHTML } from "../../helpers/content.helper";
-import { PostData } from "../../reddit.types";
-import { previewState } from "../../state/preview.state";
-import { RChatMessage } from "../Chat/RChatMessage";
-import { Media } from "../Media";
-import { RepliesContainer } from "./Replies";
+import { Flex, Text } from '@fluentui/react-northstar'
+import { useObserver } from 'mobx-react-lite'
+import * as React from 'react'
+
+import { decodeHtml, renderHTML } from '../../helpers/content.helper'
+import { PostData } from '../../reddit.types'
+import { previewState } from '../../state/preview.state'
+import { RChatMessage } from '../Chat/RChatMessage'
+import { Media } from '../Media'
+import { RepliesContainer } from './Replies'
 
 type ContentProps = {
-  data: PostData;
-};
+  data: PostData
+}
 
 export const Content: React.FC<ContentProps> = ({ data }) => {
   return useObserver(() => (
@@ -24,15 +25,15 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
           hAlign="start"
           fill
           styles={{
-            margin: "0 -1rem",
-            width: "calc(100% + 2rem)",
+            margin: '0 -1rem',
+            width: 'calc(100% + 2rem)',
           }}
         >
           <Flex
             gap="gap.small"
             padding="padding.medium"
             styles={{
-              padding: "0.5rem 1rem",
+              padding: '0.5rem 1rem',
             }}
             column
           >
@@ -40,7 +41,7 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
               target="_blank"
               rel="noopener noreferrer"
               href={data.url}
-              style={{ color: "inherit" }}
+              style={{ color: 'inherit' }}
             >
               <Text weight="semibold" content={decodeHtml(data.title)} />
             </a>
@@ -54,5 +55,5 @@ export const Content: React.FC<ContentProps> = ({ data }) => {
         </Flex>
       }
     />
-  ));
-};
+  ))
+}

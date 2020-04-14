@@ -1,1 +1,1 @@
-export const emptyArrayReference: readonly never[] = [];
+export const emptyArrayReference: readonly never[] = []

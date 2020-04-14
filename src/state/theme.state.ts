@@ -1,53 +1,60 @@
-import { TeamsThemeStylesProps, ThemePrepared } from "@fluentui/react-northstar";
-import { teams, teamsDark, teamsHighContrast } from "@fluentui/react-northstar/dist/es/themes";
-import * as msTeams from "@microsoft/teams-js";
-import { action, computed, observable } from "mobx";
+import { TeamsThemeStylesProps, ThemePrepared } from '@fluentui/react-northstar'
+import {
+  teams,
+  teamsDark,
+  teamsHighContrast,
+} from '@fluentui/react-northstar/dist/es/themes'
+import * as msTeams from '@microsoft/teams-js'
+import { action, computed, observable } from 'mobx'
 
-const themeMap = {
+export const themeMap = {
   dark: teamsDark,
   default: teams,
   contrast: teamsHighContrast,
-};
+}
 
 class ThemeState {
   @observable private _theme:
     | undefined
-    | ThemePrepared<TeamsThemeStylesProps> = undefined;
+    | ThemePrepared<TeamsThemeStylesProps> = undefined
 
   @action setThemeManually(theme: ThemePrepared<TeamsThemeStylesProps>) {
-    this._theme = theme;
+    this._theme = theme
   }
 
   @computed get theme(): ThemePrepared<TeamsThemeStylesProps> {
     if (!this._theme) {
-      if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-        return teamsDark;
+      if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+        return teamsDark
       }
 
-      if (window.matchMedia?.("(-ms-high-contrast: white-on-black)").matches) {
-        return teamsHighContrast;
+      if (window.matchMedia?.('(-ms-high-contrast: white-on-black)').matches) {
+        return teamsHighContrast
       }
 
-      return teams;
+      return teams
     } else {
-      return this._theme;
+      return this._theme
     }
   }
 }
 
-export const themeState = new ThemeState();
+export const themeState = new ThemeState()
 
 msTeams.initialize(() => {
+  console.debug('Initialized')
   msTeams.getContext((context) => {
-    alert(context);
+    console.debug('Got Context', context)
     if (context.theme) {
+      console.debug('theme - ', context.theme)
       themeState.setThemeManually(
         themeMap[context.theme as keyof typeof themeMap]
-      );
+      )
     }
-  });
+  })
 
   msTeams.registerOnThemeChangeHandler((theme) => {
-    themeState.setThemeManually(themeMap[theme as keyof typeof themeMap]);
-  });
-});
+    console.debug('Theme changed - ', theme)
+    themeState.setThemeManually(themeMap[theme as keyof typeof themeMap])
+  })
+})

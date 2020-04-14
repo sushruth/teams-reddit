@@ -1,15 +1,16 @@
-import { Chat, ChatMessageProps, Text } from "@fluentui/react-northstar";
-import * as React from "react";
-import { toCalendar } from "../../helpers/content.helper";
+import { Chat, ChatMessageProps, Text } from '@fluentui/react-northstar'
+import * as React from 'react'
+
+import { toCalendar } from '../../helpers/content.helper'
 
 interface IRChatMessageProps
   extends Omit<
     ChatMessageProps,
-    "actionMenu" | "styles" | "variables" | "author"
+    'actionMenu' | 'styles' | 'variables' | 'author'
   > {
-  score: number;
-  author: string;
-  created: number;
+  score: number
+  author: string
+  created: number
 }
 
 export const RChatMessage: React.FC<IRChatMessageProps> = ({
@@ -25,23 +26,23 @@ export const RChatMessage: React.FC<IRChatMessageProps> = ({
         iconOnly: true,
         items: [
           {
-            key: "upvotes",
-            icon: "like",
+            key: 'upvotes',
+            icon: 'like',
             content: (
               <Text
                 size="small"
                 content={score}
-                styles={{ whiteSpace: "nowrap" }}
+                styles={{ whiteSpace: 'nowrap' }}
               />
             ),
           },
         ],
       }}
       styles={{
-        width: "100%",
+        width: '100%',
         paddingBottom: 0,
-        "& .ui-chat__message": {
-          background: "transparent",
+        '& .ui-chat__message': {
+          background: 'transparent',
         },
       }}
       variables={{
@@ -61,5 +62,5 @@ export const RChatMessage: React.FC<IRChatMessageProps> = ({
       timestamp={toCalendar(timestamp)}
       {...props}
     />
-  );
-};
+  )
+}
