@@ -37,27 +37,17 @@ Add a website tab to any channel in Teams and use https://treddit.now.sh as the 
 
 ### Certificate setup
 
-2. Install openssl with scoop
-   ```sh
-   scoop install openssh
-   ```
-1. Run this to create a local certificate that can work
+This following snippet (run in powershell) is going to generate a locally signed certificate and install it in `Cert:\CurrentUser\TrustedPublishers` path for windows. Other operating system instructions will be included later.
 
-   ```sh
-   openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out certificate.crt
-   ```
+```ps
+scoop install openssl
 
-   This should interactively ask you questions which you could fill with details like so -
+cd certs
 
-   ![Terminal screenshot](./docs/ssl.png)
+openssl req -x509 -out localhost.crt -keyout localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config ./config
 
-1. Install the certificate by rightclicking on the crt file and clicking install
-   ![install certificate](./docs/install.png)
-   ![](./docs/trust.png)
-
-1. copy the crt and key files from wherever they were generated, into the certs directory in your local clone of this repo like so -
-
-   ![](./docs/copy.png)
+Import-Certificate -FilePath .\localhost.crt -CertStoreLocation Cert:\CurrentUser\Root\
+```
 
 ### Run and test the app
 
